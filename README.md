@@ -4,7 +4,7 @@ In this project, a pre-trained LLM is fine-tuned on a specific FAQ dataset (in j
 
 ## Installation
 
-As the code is implemente in Google Colab, use the package manager [!pip] to install sentence-transformers
+As the code is implemented in Google Colab, use the package manager [!pip] to install sentence-transformers
 
 ```bash
 !pip install sentence-transformers
@@ -12,6 +12,7 @@ As the code is implemente in Google Colab, use the package manager [!pip] to ins
 ```
 
 ## Required Libraries
+
 - **`sentence_transformers`**:
   - **`SentenceTransformer`**: Used for loading pre-trained models and generating embeddings for         text data.
   - **`InputExample`**: Helps in formatting the input data during fine-tuning or training.
@@ -35,3 +36,16 @@ As the code is implemente in Google Colab, use the package manager [!pip] to ins
 
 - **`itertools`**:
   - A Python module providing functions that create iterators for efficient looping and                  combinatorial processing, used here for model parameters
+ 
+## Usage
+
+### Loading JSON data
+
+To load data from a json file, specify your file path.
+
+```python
+json_data='./your/file/path/to/json/file'
+
+with open(json_data, 'r') as f:
+    data = json.load(f)
+```
