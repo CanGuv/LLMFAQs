@@ -4,7 +4,7 @@ In this project, a pre-trained LLM is fine-tuned on a specific FAQ dataset (in j
 
 ## Installation
 
-As the code is implemented in Google Colab, use the package manager [!pip] (https://pip.pypa.io/en/stable/) to install sentence-transformers
+As the code is implemented in Google Colab, use the package manager **!pip** to install sentence-transformers
 
 ```bash
 !pip install sentence-transformers
