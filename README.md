@@ -103,7 +103,7 @@ In the loop:
   - `top_k.indices[0]` contains the indices of the top `k` results and `top_k.values[0]` contains        their corresponding scores, the `zip` function combines these two lists.
   - `idx.item()` converts the tensor `idx` to a Python integer.
   - `score.item()` converts the `score` tensor to a Python float.
-  - the question, its answer and score will be appened as a dictionary to the array. 
+  - The question, it's answer and score will be appended as a dictionary to the array. 
 
 
 
