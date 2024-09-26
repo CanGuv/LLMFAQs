@@ -5,7 +5,7 @@ In this project, a pre-trained LLM is fine-tuned on a specific dataset. When a u
 
 ## Folder Structure
 - **src/**: Contains Python scripts and related README that explains the scripts and their usage.
-- **notebooks/**: Contains Jupyter notebooks for experimentation and analysis, along with a README for notebook specifics.
+- **notebooks/**: Contains Jupyter notebook for fine-tuning an LLM, along with a README for notebook specifics.
 
 ## Contributing
 If you'd like to contribute, please fork the repo and create a pull request.
