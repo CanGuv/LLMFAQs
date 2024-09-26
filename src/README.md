@@ -33,6 +33,50 @@ cd src
 pip install -r requirements.txt
 ```
 
+**Download MongoDB**
+
+macOS: (download Homebrew)
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+brew tap mongodb/brew
+brew install mongodb-community@6.0
+```
+
+Windows: (Download Chocolately)
+```bash
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+choco install mongodb
+```
+
+## Creating database:
+
+Start MongoDB:
+```bash
+brew services start mongodb/brew/mongodb-community
+```
+
+Open MongoDB shell:
+```bash
+mongosh
+```
+
+Create a database:
+```bash
+use database_name
+```
+
+Create a collection:
+```bash
+db.createCollection('collectionName')
+```
+
+To view database (after inserting):
+```bash
+db.queries.find().pretty()
+```
+
 ## Required libraries
 
 - **`sentence_transformers`**:
@@ -198,3 +242,27 @@ class MongoDBManager(MongoDBInterface):
 ```
 
 ## To run the API
+
+Make sure your virtual environment is activated.
+Then run the FastAPI application:
+
+```bash
+uvicorn (NameOfPythonFileWithout.pyExtension):app --reload
+```
+
+The server will be running on your local machine: **http://127.0.0.1:8000**
+
+Postman was used to test the API. Download here [https://www.postman.com/downloads/]
+
+  1. Create an account
+  2. Launch the Postman application on your computer
+  3. Click on the "New" button or the "+" tab to create a new request - Select "HTTP Request"
+  4. Change the request type from GET to POST using the dropdown next to the request URL field.
+  5. Enter the Request URL - (http://127.0.0.1:8000/query)
+  6. Click on the "Body" tab - Select the "raw" option.
+  7. In the text area that appears, enter your JSON object. For example:
+     {
+          "question": "How much do I need in my account to strat trading?"
+     }
+  8. Click the "Send" button
+  9. After a moment, you should see the response from your FastAPI application in the lower section of the Postman window.
