@@ -35,7 +35,7 @@ pip install -r requirements.txt
 
 **Download MongoDB**
 
-macOS: (download Homebrew)
+macOS: (Download Homebrew)
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
