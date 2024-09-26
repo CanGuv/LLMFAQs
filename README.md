@@ -210,7 +210,7 @@ for i,(num_epochs, batch_size, warmup_steps, weight_decay, learning_rate) in enu
 ### Downloading 
 
 When you have picked the models you want to use for the 100 questions, you might have to restart the session after each training, as the GPU storage can be a problem in Google Colab - if not, just make sure you initialise the dataframe again by just executing the cell where it was first initialised, so it becomes empty.
-After each training, you can download the dataframe on to your local computer.
+When you want you can download the model onto your local computer. After training of all models in one execution, you can download the dataframe on to your local computer.
 
 ```python
 From google.colab import files
