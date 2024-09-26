@@ -72,7 +72,7 @@ pip install -r requirements.txt
 model = SentenceTransformer('./path/to/model')
 ```
 
-### Initialise MongoDBManager.
+### Initialise MongoDBManager (implementation of interface below).
 
 ```python
 mongo_manager = MongoDBManager()
