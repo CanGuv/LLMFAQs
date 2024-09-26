@@ -217,7 +217,6 @@ From google.colab import files
 
 files.download(model)
 
-filepath = ./path/to/excel/file.xlsx
-output_df.to_excel(filepath, index=False)
-files.download(filepath)
+output_df.to_excel(model_summaries.xlsx, index=False)
+files.download(model_summaries.xlsx)
 ```
