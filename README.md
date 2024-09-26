@@ -133,7 +133,7 @@ def retrieve_top_k_answers(user_query, k=1):
 ### Function to save models to dataframe
 
 This function will take the columns of the dataframe created earlier as arguments and `user_questions` which was intialised at the start (from ChatGPT). 
-Make sure the dataframe is global.
+The dataframe has to be global.
 The for loop iterates through every question, uses the `retrieve_top_k_answers()` function to retrieve the top k answers, and then iterates through them, creating a dataframe from each then appending it to the global dataframe uisng `pd.concat()`
 
 ```python
