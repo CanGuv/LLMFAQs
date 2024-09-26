@@ -174,7 +174,7 @@ class Query(BaseModel):
 ### API endpoint
 
 A new POST endpoint is defined at the route `/query`. When a POST request is made to this endpoint, the `get_most_relevant_questions` function will be called. 
-The `get_most_relevant_questions` function first inserts the query in to the database. It then encodes the query using `model.encode()`, and the cosine similarity scores are calculated, using `util.cos_sim`. `torch.topk()` orders teh scores from highest to lowest,a nd by assigning `k` an integer it will return the top `k` scores. The function separates the main question (top score) with related questions (following top scores), as the main question is expected to deal with the user query. A for loop deals with the related questions;
+The `get_most_relevant_questions` function first inserts the query in to the database. It then encodes the query using `model.encode()`, and the cosine similarity scores are calculated, using `util.cos_sim`. `torch.topk()` orders the scores from highest to lowest, and by assigning `k` an integer it will return the top `k` scores. The function separates the main question (top score) with related questions (following top scores), as the main question is expected to deal with the user query. A for loop deals with the related questions;
 In the loop:
   - `top_k.indices[0][1:]` contains the indices of the top `k` results (apart from the top score) and `top_k.values[0][1:]` contains        their corresponding scores, the `zip` function combines these two lists.
   - `item()` converts the tensor to a Python type.
