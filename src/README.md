@@ -214,9 +214,9 @@ def get_most_relevant_questions(query: Query):
 
 ### MongoDb interface
 
-This interface is for the database, for abstraction and easy implementation of any changes.
+This interface is for the database; for abstraction and easy implementation of any changes.
 An abstract base class is created inheriting from `ABC` - serving as a blueprint for MongoDB operations. In contains the abstract method `insert_query` (you can add more).
-The implementation of the interface is done by creating a new class that implements the interface. In this class, when intialising a method of its self, it connects to the MongoDB server and selects the speicif databse and collection. The implementation of the abstarct method contains the insertion method to store the query and a timestamp into the database.
+The implementation of the interface is done by creating a new class that implements the interface. In this class, when intialising a method of its self, it connects to the MongoDB server and selects the specific database and collection. The implementation of the abstract method contains the insertion method to store the query and a timestamp into the database.
 
 ```python
 # Abstract Interface for MongoDB operations
