@@ -134,7 +134,7 @@ def retrieve_top_k_answers(user_query, k=1):
 
 This function will take the columns of the dataframe created earlier as arguments and `user_questions` which was intialised at the start (from ChatGPT). 
 Make sure the dataframe is global.
-The for loop iterates through every question, uses the `retrieve_top_k_answers()` function to retrieve the top k answers, and then iterates through them, creating a dataframe from each then appending it on the global dataframe uisng `pd.concat()`
+The for loop iterates through every question, uses the `retrieve_top_k_answers()` function to retrieve the top k answers, and then iterates through them, creating a dataframe from each then appending it to the global dataframe uisng `pd.concat()`
 
 ```python
 def save_model_info_as_df(model_name, num_epochs, batch_size, warmup_steps, weight_decay, learning_rate, user_questions):
@@ -158,4 +158,51 @@ def save_model_info_as_df(model_name, num_epochs, batch_size, warmup_steps, weig
 
         df_new_data = pd.DataFrame([data_to_append])
         output_df = pd.concat([output_df, df_new_data], ignore_index=True)
+```
+
+### Fine-tuning
+
+First the training parameters are intialised, this is a dictionary with each value being an array. You can add or delete keys how you wish (make sure to edit the code of where it might be used). 
+`InputExample` is used to represent a pair of texts, in this case our question and it's answer from the json file that was extracted. This will be used for the model to understand the relationship between both.
+`itertools.product()` is used to create different combinations of the training parameters, this ensures every model will be created with different parameters (depending on the values in the arrays, is how many models will be created, in this case it will be 243. The GPU storage might be a problem, so you might want to keep the amount of values in the arrays small).
+The `for` loop iterates through the combinations with an index, so each model can have a different name. Within the loop, the pre-trained model is loaded using `SentenceTransformer`, which provides a powerful and efficient way to generate semantic embeddings for text, allowing for meaningful comparison and ranking of sentences based on their semantic similarity. A `DataLoader` is created to load the training examples in batches, which is shuffled to improve model generalisation. A loss function is defined, here `losses.MultipleNegativesRankingLoss()` is used, where the goal is to learn embeddings that rank positive examples higher than negative ones. The objectives are defined with the parameters for the training. The fine-tuned model is then used to encode the questions that was extracted from the json file. First compare the models in the dataframe beofre downloading (to download you will have to train the model again with its specific parameters). The `save_model_info_as_df()` function is used to compare the question embeddings and the user embeddings, and to insert the relveant information in to the dataframe - when doing this you might want to use just 1 question for each model, so the dataframe is not crowded (instead of `irrelevant_questions` you can put "How much do I need in my account to start trading?") - from the dataframe you can then pick, maybe 5, and feed each 100 questions one at a time, so each model has its own dataframe, and then compare them to pick your model. To view the dataframe you can execute `output_df` in a cell after.
+
+```python
+# Configure fine-tuning parameters
+training_parameters = {
+    'num_epochs': [2,4,8],
+    'batch_size': [8,16,32],
+    'warmup_steps': [100,500,1000],
+    'weight_decay': [0.01,0.05,0.1],
+    'learning_rate': [1e-5,3e-5,5e-5]
+}
+
+train_examples = [InputExample(texts=[faq['title'], faq['body']]) for faq in articles]
+
+param_combinations = list(itertools.product(*training_parameters.values()))
+
+for i,(num_epochs, batch_size, warmup_steps, weight_decay, learning_rate) in enumerate(param_combinations):
+  print(f"Training with parameters: num_epochs={num_epochs}, batch_size={batch_size}, warmup_steps={warmup_steps}, weight_decay={weight_decay}, learning_rate={learning_rate}")
+
+  model = SentenceTransformer('sentence-transformers/all-MiniLM-L12-v2')
+  model_name = f"model_{i}"
+
+  train_dataloader = DataLoader(train_examples, shuffle=True, batch_size=batch_size)
+  train_loss = losses.MultipleNegativesRankingLoss(model)
+
+  # Train the model
+  model.fit(
+      train_objectives=[(train_dataloader, train_loss)],
+      epochs=num_epochs,
+      warmup_steps=warmup_steps,
+      weight_decay=weight_decay,
+      optimizer_params={'lr': learning_rate}  # Learning rate for fine-tuning
+  )
+
+  question_embeddings = model.encode(questions, convert_to_tensor=True)
+
+  # model_path = './path/to/save/model'
+  # model.save(model_path)
+
+  save_model_info_as_df(model_name, num_epochs, batch_size, warmup_steps, weight_decay, learning_rate, irrelevant_questions)
 ```
