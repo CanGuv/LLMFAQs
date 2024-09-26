@@ -165,7 +165,7 @@ def save_model_info_as_df(model_name, num_epochs, batch_size, warmup_steps, weig
 First the training parameters are intialised, this is a dictionary with each value being an array. You can add or delete keys how you wish (make sure to edit the code of where it might be used). 
 `InputExample` is used to represent a pair of texts, in this case our question and it's answer from the json file, that was extracted. This will be used for the model to understand the relationship between both.
 `itertools.product()` is used to create different combinations of the training parameters, this ensures every model will be created with different parameters (depending on the values in the arrays, is how many models will be created, in this case it will be 243. The GPU storage might be a problem, so you might want to keep the amount of values in the arrays small).
-The `for` loop iterates through the combinations with an index, so each model can have a different name. Within the loop, the pre-trained model is loaded using `SentenceTransformer`, which provides a powerful and efficient way to generate semantic embeddings for text, allowing for meaningful comparison and ranking of sentences based on their semantic similarity. A `DataLoader` is created to load the training examples in batches, which is shuffled to improve model generalisation. A loss function is defined, here `losses.MultipleNegativesRankingLoss()` is used, where the goal is to learn embeddings that rank positive examples higher than negative ones. The objectives are defined with the parameters for the training. The fine-tuned model is then used to encode the questions that was extracted from the json file. First compare the models in the dataframe beofre downloading (to download you will have to train the model again with its specific parameters). The `save_model_info_as_df()` function is used to compare the question embeddings and the user embeddings, and to insert the relveant information in to the dataframe - when doing this you might want to use just 1 question for each model, so the dataframe is not crowded (instead of `irrelevant_questions` you can put "How much do I need in my account to start trading?") - from the dataframe you can then pick, maybe 5, and feed each 100 questions one at a time, so each model has its own dataframe, and then compare them to pick your model. To view the dataframe you can execute `output_df` in a cell after.
+The `for` loop iterates through the combinations with an index, so each model can have a different name. Within the loop, the pre-trained model is loaded using `SentenceTransformer`, which provides a powerful and efficient way to generate semantic embeddings for text, allowing for meaningful comparison and ranking of sentences based on their semantic similarity. A `DataLoader` is created to load the training examples in batches, which is shuffled to improve model generalisation. A loss function is defined, here `losses.MultipleNegativesRankingLoss()` is used, where the goal is to learn embeddings that rank positive examples higher than negative ones. The objectives are defined with the parameters for the training. The fine-tuned model is then used to encode the questions that was extracted from the json file, uisng `model.enocde()`. First compare the models in the dataframe before downloading (to download you will have to train the model again with its specific parameters). The `save_model_info_as_df()` function is used to compare the question embeddings and the user embeddings, and to insert the relevant information in to the dataframe - when doing this you might want to use just 1 question for each model, so the dataframe is not crowded (instead of `irrelevant_questions` you can put "How much do I need in my account to start trading?") - from the dataframe you can then pick, maybe 5, and feed each 100 questions one at a time, so each model has its own dataframe, and then compare them to pick your model. To view the dataframe you can execute `output_df` in a cell after.
 
 ```python
 # Configure fine-tuning parameters
@@ -205,4 +205,19 @@ for i,(num_epochs, batch_size, warmup_steps, weight_decay, learning_rate) in enu
   # model.save(model_path)
 
   save_model_info_as_df(model_name, num_epochs, batch_size, warmup_steps, weight_decay, learning_rate, irrelevant_questions)
+```
+
+### Downloading 
+
+When you have picked the models you want to use for the 100 questions, you might have to restart the session after each training, as the GPU storage can be a problem in Google Colab - if not, just make sure you initialise the dataframe again by just executing the cell where it was first initialised, so it becomes empty.
+After each training, you can download the dataframe on to your local computer.
+
+```python
+From google.colab import files
+
+files.download(model)
+
+filepath = ./path/to/excel/file.xlsx
+output_df.to_excel(filepath, index=False)
+files.download(filepath)
 ```
