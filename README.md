@@ -41,7 +41,7 @@ As the code is implemented in Google Colab, use the package manager **!pip** to 
 
 ### Create questions
 
-Create an array of questions which will be used later on to for the model to encode and compare to the questions in the json file. You can get these questions from ChatGPT. eg: 'Give me 100 questions that's similar to the questions in my json file but not the same - give it in speeach marks with a comma after each and no index'.
+Create an array of questions which will be used later on to for the model to encode and compare to the questions in the json file. You can get these questions from ChatGPT. eg: 'Give me 100 questions that's similar to the questions in my json file but not the same - give it in speech marks with a comma after each and no index'.
 
 ```python
 similar_questions = ["How much do I need in my accoun to start trading", ".....",...]
