@@ -131,7 +131,7 @@ with open('./CleanedFullFAQ.json', 'r') as f:
 
 ### Extract data from json file
 
-Depending on your json file and its format, extract the required data accordingly. Here each question is extracted, from the json file, with its id, topicId, title (question) and body (answer).
+Depending on your json file and its format, extract the required data accordingly. Here each part is extracted, from the json file, with its id, topicId, title (question) and body (answer).
 
 ```python
 articles = []
