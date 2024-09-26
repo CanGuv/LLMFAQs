@@ -178,7 +178,8 @@ The `get_most_relevant_questions` function first inserts the query in to the dat
 In the loop:
   - `top_k.indices[0][1:]` contains the indices of the top `k` results (apart from the top score) and `top_k.values[0][1:]` contains        their corresponding scores, the `zip` function combines these two lists.
   - `item()` converts the tensor to a Python type.
-  - The question, it's answer,type and score will be appended as a dictionary to the array.
+  - The question, it's answer, type and score will be appended as a dictionary to the array.
+The result returned is an array of the main question and related questions, with their information.
 
 ```python
 @app.post("/query")
